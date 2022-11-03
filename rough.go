@@ -26,26 +26,23 @@ type csvJson1 struct {
 
 //Main this is the entry point for the programme
 func main() {
-	var allFiles []csvJson1
+	//var allFiles []csvJson1
 	//Opening of the CSV file using
 	file, err := os.Open("data.csv")
 	if err != nil {
 		log.Println(err.Error())
-		//c.Status(http.StatusUnprocessableEntity)
 		return
 	}
 	fmt.Println("Open successfully")
 	defer file.Close()
 	//Reading the file for the purpose of harshing
-	records1, _ := ioutil.ReadFile("data.csv"
-	//sum is the sha256 harsh
-	sum = sha256.Sum256(records1)
+	records1, _ := ioutil.ReadFile("data.csv")
+	sum := sha256.Sum256(records1)
 
 	//records returns an io.reader
 	records, err := csv.NewReader(file).ReadAll()
 	if err != nil {
 		log.Println(err.Error())
-		//c.Status(http.StatusUnprocessableEntity)
 		return
 	}
 	//looping to fill in the struct
@@ -61,12 +58,18 @@ func main() {
 		item.Description = line[6]
 		item.UUID = line[7]
 		item.FilenameOutputCsv = sum
-		allFiles = append(allFiles, item)
+		//allFiles = append(allFiles, item)
+
+		jsonData, err := json.Marshal(item)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(string(jsonData))
 	}
 	//Changing the slice into json
-	jsonData, err := json.Marshal(&allFiles)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Print(string(jsonData))
+	//jsonData, err := json.Marshal(&allFiles)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//fmt.Print(string(jsonData))
 }
