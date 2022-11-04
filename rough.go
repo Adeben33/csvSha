@@ -11,17 +11,34 @@ import (
 )
 
 //JSON struct for marshalling
+type attribute1 struct {
+	TraitType string `json:"TraitType"`
+	Value     string `json:"Value"`
+}
+type attribute2 struct {
+	Type  string `json:"type"`
+	Value string `json:"Value"`
+}
+
+type collection struct {
+	Name                string       `json:"Name"`
+	Id                  string       `json:"Id"`
+	Collectionattribute []attribute2 `json:"Collectionattribute"`
+}
 type csvJson1 struct {
-	Format            string   `json:"format"`
-	SeriesNumber      string   `json:"seriesNumber"`
-	CurrentName       string   `json:"currentName"`
-	Name              string   `json:"name"`
-	The               string   `json:"the"`
-	Descriptor        string   `json:"descriptor"`
-	NewName           string   `json:"newName"`
-	Description       string   `json:"description"`
-	UUID              string   `json:"UUID"`
-	FilenameOutputCsv [32]byte `json:"filename.output.csv"`
+	Format            string       `json:"format"`
+	Name              string       `json:"Team name"`
+	FileName          string       `json:"fileName"`
+	Description       string       `json:"description"`
+	Gender            string       `json:"gender"`
+	MintingTool       string       `json:"minting_tool"`
+	SensitiveContent  bool         `json:"sensitiveContent"`
+	SeriesNumber      string       `json:"SeriesNumber"`
+	SeriesTotal       int          `json:"series_total"`
+	Attributes        []attribute1 `json:"attributes"`
+	Collections       []string     `json:"collection"`
+	UUID              string       `json:"UUID"`
+	FilenameOutputCsv [32]byte     `json:"filename.output.csv"`
 }
 
 //Main this is the entry point for the programme
@@ -48,15 +65,18 @@ func main() {
 	//looping to fill in the struct
 	for _, line := range records {
 		var item csvJson1
-		item.Format = "format"
-		item.SeriesNumber = line[0]
-		item.CurrentName = line[1]
-		item.Name = line[2]
-		item.The = line[3]
-		item.Descriptor = line[4]
-		item.NewName = line[5]
-		item.Description = line[6]
-		item.UUID = line[7]
+		item.Format = "CHIP-0007"
+		item.MintingTool = line[0]
+		item.SeriesNumber = line[1]
+		item.FileName = line[2]
+		item.Name = line[3]
+		item.Description = line[4]
+		item.Gender = line[5]
+		item.SensitiveContent = false
+		item.SeriesTotal = 420
+		item.UUID = line
+		item.Attributes
+		item.Collections
 		item.FilenameOutputCsv = sum
 		//allFiles = append(allFiles, item)
 
